@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block reports %}active{% endblock %}
+{% block monthly_reports %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <br><br>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><b>Monthly Reports</b></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th><i class="fa fa-user"></i>Date </th>
+                                    <th><i class="fa fa-user"></i>Total Debit </th>
+                                    <th><i class="fa fa-male"></i> Total Credit </th>
+                                    <th><i class="fa fa-mobile"></i>Total New Customer </th>
+                                    <th><i class="fa fa-edit"></i>Total New Purchase</th>
+                                    <th><i class="fa fa-edit"></i>Total New Sales</th>
+                                    <th><i class="fa fa-edit"></i>Total Purchase Cost</th>
+                                    <th><i class="fa fa-edit"></i>Total Actual Sale Amount</th>
+                                    <th><i class="fa fa-edit"></i>Profit</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for result in results %}
+                                    <tr>
+                                        <td>{{ result.date }}</td>
+                                        <td>{{ result.total_debit|floatformat:'-2' }}</td>
+                                        <td>{{ result.total_credit|floatformat:'-2' }}</td>
+                                        <td>{{ result.new_customer }}</td>
+                                        <td> {{ result.total_new_purchase }}</td>
+                                        <td> {{ result.monthly_purchase_cost }}</td>
+                                        <td>{{result.new_sales}}</td>
+                                        <td>{{result.total_paid_amount}}</td>
+                                        <td> {{ result.monthly_profit }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+{% endblock %}

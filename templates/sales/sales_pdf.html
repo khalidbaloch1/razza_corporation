@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <title>Developed By Khalid Baloch</title>
+<style>
+  .clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a {
+  text-decoration: underline;
+}
+
+body {
+  position: relative;
+  margin: 0 auto;
+  color: #001028;
+  background: #FFFFFF;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-family: Arial;
+}
+
+header {
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+#logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#logo img {
+  width: 90px;
+}
+
+h1 {
+
+  color: #5D6975;
+  font-size: 2.4em;
+  line-height: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+#project {
+  float: left;
+}
+
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 14px;
+}
+
+#company {
+  float: right;
+  text-align: right;
+}
+
+#project div,
+#company div {
+  white-space: nowrap;
+}
+
+#total {
+  float: right;
+  text-align: right;
+}
+
+#project div,
+#total div {
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    color: teal;
+}
+
+table th,
+table td {
+  text-align: center;
+}
+
+table {
+  border-bottom: 1px solid #C1CED9;
+  white-space: nowrap;
+  font-size: 1.2em;
+}
+
+table .service,
+table .desc {
+  text-align: left;
+}
+
+table td {
+ padding-top:5px;
+ padding-bottom:5px;
+
+}
+
+table tr {
+
+    border-bottom: 2px solid #C1CED9;
+}
+
+table td.service,
+table td.desc {
+  vertical-align: top;
+}
+
+
+
+#notices .notice {
+  color: #5D6975;
+  font-size: 1.2em;
+}
+
+footer {
+  color: #5D6975;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: center;
+}
+
+
+  </style>
+</head>
+
+<body>
+<div class="container">
+      <h1><b>Razza Corporation</b></h1>
+      <hr>
+  <header class="clearfix">
+    <div id="logo" style="display:flex; justify-content:center; align-items:center;"></div>
+      {#<img src="static/firstapp/images/logo.png" class="brand-logo" width=60 height=60>#} <!--not working-->
+      {#<img src="static/logo.png" class="brand-logo" height="200px">#} <!--not working-->
+      {#<img src="D:\Mastering Django\firstproject\firstapp\logo.png" class="brand-logo" width=60 height=60>#}
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>
+                <strong>Bill From: Razza Corporation</strong> <br />
+                ShahSkindar Road Dera Ghazi Khan<br />
+                  <strong>Contact:</strong> 03338108980 <br/>
+                  <strong>Email:</strong> razzacorporation@gmail.com <br />
+                <br>
+                <br>
+                <br>
+                    Billed Date: {{ sales.sale_date|date:"d-m-y" }}
+              </td>
+
+              <td>
+                <strong class="f-size">CLIENT:</strong> {{sales.customer.name|title}} <br />
+                <strong class="f-size">Address:</strong> {{sales.customer.address|title}}<br />
+                <strong class="f-size">City:</strong> {{sales.customer.city|title}}<br />
+                <strong class="f-size">Contact:</strong> {{ sales.customer.mobile}} <br />
+                <strong class="f-size">NTN:</strong> {{ sales.customer.ntn}} <br />
+                <strong class="f-size">STRN:</strong> {{ sales.customer.strn}}
+                <br>
+                <br>
+                    Invoice No: {{ sales.id|stringformat:"03d"}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </header>
+    <div class="table-responsive">
+        <table class="table">
+          <thead>
+              <tr>
+                  <th class="text-center">Item</th>
+                  <th scope="col">Vehicle</th>
+                  <th scope="col">Unit / Price</th>
+                  <th scope="col">Total Ton</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Deduction</th>
+                  <th scope="col">Freight / R</th>
+              </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="item">{{ sales.item.product|title}} {{sales.item.product_place|title}}</td>
+            <td class="unit">{{sales.vehicle.name}} {{sales.vehicle.vehicle_number}}</td>
+            <td class="qty">{{sales.price_per_ton}}</td>
+            <td class="total">{{sales.total_ton}}</td>
+              <td class="total">{{sales.total_amount|floatformat:"-2"}}</td>
+              <td class="total">{{sales.deduction|floatformat:"-2"}}</td>
+              <td class="total">{{sales.frieght_recieved|floatformat:"-2"}}</td>
+		  </tr>
+          </tbody>
+      </table>
+    </div>
+      <div id="total" class="clearfix">
+          <label class=" text-center"><strong><span style="color: black">Sub Total:</span></strong></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin: 15px;"><span style="color: red !important; font-weight: bold">{{sales.sub_total|floatformat:"-2"}}</span></span><br>
+          {#<label class=" text-center"><strong><span style="color: black">Freight(received):</span></strong></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin: 15px;"><span style="color: red !important; font-weight: bold">{{sales.frieght_recieved|floatformat:"-2"}}</span></span><br>#}
+          <label><strong><span style="color: black">GST 17%:</span></strong></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="margin: 15px;"><span style="color: red !important; font-weight: bold">{{sales.gst_sub_total|floatformat:"-2"}}</span></span><br>
+          <label><strong><span style="color: black">Advance Payment:</span></strong></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin: 15px;"><span style="color: red !important; font-weight: bold">{{sales.advance_payment|floatformat:"-2"}}</span></span><br>
+          <label><strong><span style="color: black">Remaining Balance:</span></strong></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin: 15px;"><span style="color: red !important; font-weight: bold">{{ sales.remaining_payment|floatformat:'-2' }}</span></span><br>
+      </div>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <hr>
+    <div class="row">
+        <div class="col-xs-12 col-md-12" style="text-align: center;">
+            <strong style="font-size:12px;color:#000">Thank You</strong>
+        </div>
+        <div class="col-xs-12 col-md-12" style="text-align: center;">
+            <strong class="f-size">Software Developed By | A-K | SOLUTIONS</strong>
+        </div>
+        <div class="col-lg-12 col-xs-12" style="text-align: center;">
+            <strong class="f-size">ph:+92-333-1340752</strong>
+        </div>
+    </div>
+</div>
+</body>
+</html>

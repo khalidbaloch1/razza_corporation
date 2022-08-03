@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block purchase %}active{% endblock %}
+{% block purchase_create %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <br><br>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3  class="text-center">Add Purchase </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form class="was-validated" action="{% url 'purchase:add' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label" name="item">Item</label>
+                        <select class="form-control" name="item">
+                            {% for item in item %}
+                            <option value="{{item.id}}">{{item.product}} | {{item.product_place}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label" name="supplier">Supplier</label>
+                        <select class="form-control" name="supplier">
+                            {% for supplier in supplier %}
+                            <option value="{{supplier.id}}">{{supplier.name}} | {{supplier.mobile}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label" name="vehicle">Vehicle</label>
+                        <select class="form-control" name="vehicle">
+                            {% for vehicle in vehicle %}
+                            <option value="{{vehicle.id}}">{{vehicle.name}} | {{vehicle.vehicle_number}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4  form-group">
+                        <label class="form-control-label">Price Per Ton </label>
+                        <input type="number" id="price_per_ton" name="price_per_ton" class="form-control form-control-alternative" placeholder="Price Per Ton" onkeyup="sum()" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Total Ton </label>
+                        <input type="text" id="total_ton" name="total_ton" class="form-control form-control-alternative" placeholder="Total Ton" onkeyup="sum()" required>
+                    </div>
+
+                    <div class="col-md-4  form-group">
+                        <label class="form-control-label">Cost Item </label>
+                        <input type="text" id="cost" name="cost" class="form-control form-control-alternative" placeholder="Cost Item " onkeyup="sumtotal()" readonly >
+                    </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="form-control-label">Advance Payment / Paishgi </label>
+                            <input type="number" id="advance_payment" name="advance_payment" class="form-control form-control-alternative" placeholder="Advance Payment" onkeyup="sumtotaladvance()" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="form-control-label">After Advance Payment / Paishgi </label>
+                            <input type="text" id="after_advance_payment" name="after_advance_payment" class="form-control form-control-alternative" placeholder="After advance Payment" onkeyup="sumtotal()" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-4 form-group">
+                            <label class="form-control-label">Total Expense </label>
+                            <input type="number" id="total_expense" name="total_expense" class="form-control form-control-alternative" placeholder="Expense Per TOn" onkeyup="sumtotal()" required>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label class="form-control-label">Frieght </label>
+                            <input type="number" id="frieght" name="frieght" class="form-control form-control-alternative" placeholder="Frieght" onkeyup="sumtotal()" required>
+                        </div>
+
+                        <div class="col-md-4  form-group">
+                            <label class="form-control-label">Total Cost / Bill </label>
+                            <input type="text" id="total_cost" name="total_cost" class="form-control form-control-alternative" placeholder="Total Cost" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4  form-group">
+                            <label class="form-control-label">Bilty No </label>
+                            <input type="number" id="bilty_no" name="bilty_no" class="form-control form-control-alternative" placeholder="Add Bilty No" >
+                        </div>
+                        <div class="col-md-4  form-group">
+                            <label class="form-control-label">Date </label>
+                            <input type="date" name="purchase_date" class="form-control form-control-alternative" placeholder="Date " required>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label class="form-control-label">Bilty Detail </label>
+                            <input type="text" name="bilty_details" class="form-control form-control-alternative" placeholder="Bilty Detail">
+                        </div><br>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+           </div>
+          </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+<script>
+function showImage(){
+if(this.files && this.files[0]){
+    var obj = new FileReader();
+    obj.onload = function(data){
+        var image = document.getElementById("photo");
+        image.src = data.target.result;
+        image.style.display = "block";
+    }
+    obj.readAsDataURL(this.files[0]);
+}
+}
+</script>
+{% endblock %}

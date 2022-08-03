@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% block sales %}active{% endblock %}
+{% block sales_create %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <br><br>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Add Sales</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <div class="card-body">
+                <form class="was-validated" action="{% url 'sales:add' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label" name="item">Item</label>
+                        <select class="form-control" name="item">
+                            {% for item in item %}
+                            <option value="{{item.id}}">{{item.product}} | {{item.product_place}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label" name="customer">Customer</label>
+                        <select class="form-control" name="customer">
+                            {% for customer in customer %}
+                            <option value="{{customer.id}}">{{customer.name}} | {{customer.mobile}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label" name="vehicle">Vehicle</label>
+                        <select class="form-control" name="vehicle">
+                            {% for vehicle in vehicle %}
+                            <option value="{{vehicle.id}}">{{vehicle.name}} | {{vehicle.vehicle_number}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4  form-group">
+                        <label class="form-control-label">Price Per Ton </label>
+                        <input type="number" id="price_per_ton" name="price_per_ton" class="form-control form-control-alternative" placeholder="Price Per Ton" onkeyup="sum()" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Total Ton </label>
+                        <input type="text" id="total_ton" name="total_ton" class="form-control form-control-alternative" placeholder="Total Ton" onkeyup="sum()" required>
+                    </div>
+                    <div class="col-md-4  form-group">
+                        <label class="form-control-label">Total Amount </label>
+                        <input type="number" id="cost" name="total_amount" class="form-control form-control-alternative" placeholder="Total Amount " onkeyup="subtotal()" readonly >
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Deduction </label>
+                        <input type="number" id="deduction" name="deduction" class="form-control form-control-alternative" placeholder="Deduction" onkeyup="actualsale()" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Actual Sale </label>
+                        <input type="number" id="actual_sale" name="actual_sale" class="form-control form-control-alternative" placeholder="Actual Sale" onkeyup="actualsale()" readonly>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Frieght Recieved  </label>
+                        <input type="number" id="frieght_recieved" name="frieght_recieved" class="form-control form-control-alternative" placeholder="Frieght Recieved" onkeyup="subtotal()" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Sub Total </label>
+                        <input type="number" id="sub_total" name="sub_total" class="form-control form-control-alternative" placeholder="Sub Total" onkeyup="totalbalnc()" readonly>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">GST % </label>
+                        <input type="number" id="gst" name="gst" class="form-control form-control-alternative" placeholder="GST in Percantage" onkeyup="gstsubtotal()" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label>After GST Sub Total </label>
+                    <input type="number" id="gst_sub_total" name="gst_sub_total" class="form-control gst_sub_total" placeholder="After GST Sub Total" onkeyup="totalbalnc()" readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Advance Payment </label>
+                        <input type="number" id="advance_payment" name="advance_payment" class="form-control form-control-alternative" placeholder="Advance Payment " onkeyup="totalbalnc()" required>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label class="form-control-label">Total Balance </label>
+                        <input type="number" id="balance" name="balance" class="form-control form-control-alternative" placeholder="Balance" onkeyup="remainingamnt()" readonly>
+                    </div>
+
+                     <div class="col-md-4 form-group">
+                        <label class="form-control-label">Paid Amount </label>
+                        <input type="number" id="paid_amount" name="paid_amount" class="form-control form-control-alternative" placeholder="Paid Amount" onkeyup="remainingamnt()" required>
+                    </div>
+                     <div class="col-md-4 form-group">
+                        <label class="form-control-label">Remaining Amount </label>
+                        <input type="number" id="remaining_payment" name="remaining_payment" class="form-control form-control-alternative" placeholder="Remaining Amount" readonly>
+                    </div>
+
+                    <div class="col-md-4  form-group">
+                        <label class="form-control-label">Bilty No </label>
+                        <input type="number" id="bilty_no" name="bilty_no" class="form-control form-control-alternative" placeholder="Add Bilty No">
+                    </div>
+
+                    <div class="col-md-4  form-group">
+                        <label class="form-control-label">Date </label>
+                        <input type="date" name="sale_date" class="form-control form-control-alternative" placeholder="Date " required>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+              </div>
+          </div>
+          </div>
+        </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+<script>
+function showImage(){
+if(this.files && this.files[0]){
+    var obj = new FileReader();
+    obj.onload = function(data){
+        var image = document.getElementById("photo");
+        image.src = data.target.result;
+        image.style.display = "block";
+    }
+    obj.readAsDataURL(this.files[0]);
+}
+}
+</script>
+
+<!-- Add Form Sales specific script -->
+<script type="text/javascript">
+        function sum() {
+            var price_per_ton = document.getElementById('price_per_ton').value;
+            var total_ton = document.getElementById('total_ton').value;
+            var result = parseFloat(price_per_ton) * parseFloat(total_ton);
+            if (!isNaN(result)) {
+                document.getElementById('cost').value = result;
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+        function actualsale() {
+            var deduction = document.getElementById('deduction').value;
+            var cost = document.getElementById('cost').value;
+            var result = parseFloat(cost) - parseFloat(deduction) ;
+            if (!isNaN(result)) {
+                document.getElementById('actual_sale').value = result;
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+        function gstsubtotal() {
+            var gst = document.getElementById('gst').value;
+            var sub_total = document.getElementById('sub_total').value;
+            var r = (parseFloat(sub_total) / 100) *parseFloat(gst) ;
+            var result = parseFloat(r) + parseFloat(sub_total)
+            if (!isNaN(result)) {
+                document.getElementById('gst_sub_total').value = result;
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+    function totalbalnc() {
+        var gst_sub_total = document.getElementById('gst_sub_total').value;
+        var advance_payment = document.getElementById('advance_payment').value;
+        var result = parseFloat(gst_sub_total) - parseFloat(advance_payment);
+        if (!isNaN(result)) {
+            document.getElementById('balance').value = result;
+        }
+    }
+</script>
+
+<script type="text/javascript">
+        function remainingamnt() {
+            var balance = document.getElementById('balance').value;
+            var paid_amount = document.getElementById('paid_amount').value;
+            var result =parseFloat(balance) - parseFloat(paid_amount) ;
+            if (!isNaN(result)) {
+                document.getElementById('remaining_payment').value = result;
+            }
+        }
+    </script>
+
+<script type="text/javascript">
+        function subtotal() {
+            var frieght_recieved = document.getElementById('frieght_recieved').value;
+            var actual_sale = document.getElementById('actual_sale').value;
+            var result = parseFloat(actual_sale) - parseFloat(frieght_recieved) ;
+            if (!isNaN(result)) {
+                document.getElementById('sub_total').value = result;
+            }
+        }
+    </script>
+<!-- And-->
+
+{% endblock %}

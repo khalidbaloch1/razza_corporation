@@ -1,0 +1,134 @@
+{% extends "base.html"%}
+{% block content %}
+{% load static %}
+
+<!-- Add Product Popup Modal HTML -->
+<div id="addproduct" class="modal fade">
+		<div class="modal-dialog">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3  class="text-center">Add Product Category</h3>
+              </div>
+			<div class="modal-content">
+				 <!-- form start -->
+              <form class="was-validated" action="{% url 'product:add_category' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Product Category </label>
+                      <input type="text" name="product" class="form-control form-control-alternative" placeholder="Add Category" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Add Place</label>
+                    <input type="text" name="product_place" class="form-control form-control-alternative" placeholder="Place eg: quetta , much, kholu" required>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+            </div>
+        </div>
+    </div>
+<!-- Add Product Popup Modal End -->
+
+<!-- Add Vehicle Popup Modal HTML -->
+<div id="add-vehicle" class="modal fade">
+		<div class="modal-dialog">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="text-center">Add Vehicle Category</h3>
+              </div>
+			<div class="modal-content">
+				 <!-- form start -->
+              <form class="was-validated" action="{% url 'vehicle:add_vehicle' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                      <label class="form-control-label">Vehicle Name</label>
+                      <input type="text" name="name" class="form-control form-control-alternative" placeholder="Vehicle Name eg: truck, dumper etc" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label">Vehicle Number</label>
+                    <input type="text" name="vehicle_number" class="form-control form-control-alternative" placeholder="Vehicle Number eg: ASD 2123" required>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">Vehicle Owner Mobile</label>
+                      <input type="text" name="vehicle_owner_number" class="form-control form-control-alternative" placeholder="Vehicle Owner Mobile" required>
+                  </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </div>
+              </form>
+            </div>
+            </div>
+        </div>
+</div>
+<!-- Add Vehicle Popup Modal End -->
+
+ <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+      </div>
+    </section>
+      <br>
+
+<!-- Main content -->
+      <section class="content"></section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="sticky-top mb-3">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Calendar</h4>
+                </div>
+                <div class="card-body">
+                  <!-- the events -->
+                  <div id="external-events">
+
+                      <!-- /.col -->
+                      <div class="col-md-12">
+                        <div class="card card-primary">
+                          <div class="card-body p-0">
+                            <!-- THE CALENDAR -->
+                            <div id="calendar"></div>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                  </div><!-- /.container-fluid -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+<!-- /.content -->
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    let btn
+    swal ( "Razza | Corporation" ,  "WEL COME BACK TO HOME PAGE!" ,  "success" )
+</script>
+
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock %}

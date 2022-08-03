@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block supplier %}active{% endblock %}
+{% block supplier_list %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <br><br>
+
+    <!-- Delete Success Alert  Messages -->
+    {% for msg in messages %}
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          <strong>Hey!</strong> {{msg}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    {% endfor %}
+    <!-- end -->
+
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><b>Supplier List</b></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    {%if request.user.user_profile.user_type == request.user.user_profile.USER_TYPE_ADMIN%}
+                                    <th class="text-center" style="color: red;">Action</th>
+                                    {% endif %}
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">STRN</th>
+                                    <th class="text-center">NTN</th>
+                                    <th class="text-center">Mobile</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for supplier in object_list %}
+                                <tr>
+                                    {%if request.user.user_profile.user_type == request.user.user_profile.USER_TYPE_ADMIN%}
+                                    <!-- Delete Vehicle Popup HTML -->
+                                    <div id="delete" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="{% url 'supplier:delete' pk=supplier.id %}">
+                                                    {% csrf_token %}
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Delete Supplier</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete these Records?</p>
+                                                        <!--<p class="text-warning"><small>This action cannot be undone.</small></p>-->
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <!-- Add Delete Popup Modal End -->
+
+                                        <!-- Action HTML -->
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                        <button type="button" class="btn btn-danger">Action</button>
+                                        <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                          <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <div class="dropdown-menu" role="menu">
+                                          <a class="dropdown-item" href="#delete{% url 'supplier:delete' pk=supplier.id %}" data-title="Delete" data-toggle="modal" data-target="#delete" >DELETE</a>
+                                            <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="{% url 'supplier:ledger_list' pk=supplier.id %}">View Ledger Details</a>
+                                            <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="{% url 'supplier:invoices' supplier_id=supplier.id %}">Reports For Supplier</a>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    {% endif %}
+                                    <td class="text-center" style="font-family: italian;"><b>{{supplier.name|title}}</b></td>
+                                    <td class="text-center">{{supplier.strn}}</td>
+                                    <td class="text-center">{{supplier.ntn}}</td>
+                                    <td class="text-center">{{supplier.mobile}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            {% if paginator.page_range|length > 1 %}
+                            <div class="text-center col-lg-12">
+                                <ul class="pagination justify-content-center">
+                                    <li><a  style="background-color: #3070A8; color: white" class="page_previous" href="{% if page_obj.has_previous %}{% url 'supplier:list' %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}" title="Previous"><<</a></li>
+                                    <li><a style="background-color: #3070A8; color: white" class="page_next" href="{% if page_obj.has_next %}{% url 'supplier:list' %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}" title="Next">>></a></li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+<script>
+$(function () {
+    $('.search').on('click', function () {
+        var url = '{% url "supplier:list" %}';
+        window.location.href  = url + '?' + 'supplier_name=' + $('.name_search').val() + '&supplier_id=' +  $('.id_search').val();
+    });
+})
+</script>
+{% endblock %}

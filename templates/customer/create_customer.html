@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block customer %}active{% endblock %}
+{% block customer_create %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <br><br>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3  class="text-center">Add Customer</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form class="was-validated" action="{% url 'customer:add' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                      <label class="form-control-label">Name</label>
+                      <input type="text" name="name" class="form-control form-control-alternative" placeholder="Name" required>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">NTN</label>
+                      <input type="text" name="ntn" class="form-control form-control-alternative" placeholder="NTN Number">
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">STRN</label>
+                      <input type="text" name="strn" class="form-control form-control-alternative" placeholder="STRN Number">
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">City</label>
+                      <input type="text" name="city" class="form-control form-control-alternative" placeholder="City">
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">Mobile</label>
+                      <input type="number" name="mobile" class="form-control form-control-alternative" placeholder="Mobile" required>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">Resident</label>
+                      <input type="text" name="resident" class="form-control form-control-alternative" placeholder="Resident" >
+                  </div>
+
+                  <div class="form-group">
+                      <label class="form-control-label">Complete Address </label>
+                      <input type="text" name="address" class="form-control form-control-alternative" placeholder="Complete Address" >
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+           </div>
+          </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

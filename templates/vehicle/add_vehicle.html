@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block vehicle %}active{% endblock %}
+{% block add_vehicle %}active{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <br><br>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3  class="text-center">Add Product Category</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <div class="card-body">
+                  <form class="was-validated" action="{% url 'vehicle:add_vehicle' %}" method="post" autocomplete="off">
+                      {% csrf_token %}
+                          <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Name</label>
+                                    <input type="text" name="name" class="form-control form-control-alternative" placeholder="Vehicle Name eg: truck, dumper etc" required>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Number</label>
+                                    <input type="text" name="vehicle_number" class="form-control form-control-alternative" placeholder="Vehicle Number eg: ASD 2123" required>
+                                </div>
+                            </div>
+                             <!--<div class="row">-->
+                                <!--<div class="col-md-12 pull-left form-group">-->
+                                    <!--<label class="form-control-label">Vehicle Owner Name</label>-->
+                                    <!--<input type="text" name="vehicle_driver" class="form-control form-control-alternative" placeholder="Vehicle Owner Name">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                             <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Vehicle Owner Mobile</label>
+                                    <input type="number" name="vehicle_owner_number" class="form-control form-control-alternative" placeholder="Vehicle Owner Mobile" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pull-right form-group">
+                                    <label class="form-control-label"></label>
+                                    <button type="submit" value="Create" class="btn btn-primary form-control">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+</div>
+
+{% endblock %}

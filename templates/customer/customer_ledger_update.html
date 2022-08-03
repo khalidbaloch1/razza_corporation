@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block customer %}active{% endblock %}
+{% block customer_list %}active{% endblock %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'common:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Credit/Payment</li>
+        </ol>
+    </section>
+    <br>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6 pull-left">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="text-center"><b>{{  object.customer.name|title }} |</b> <small><b>Credit Amount</b></small></h3>
+                    </div>
+                    <div class="box-body">
+                        <form action="{% url 'customer:ledger_update' pk=object.id %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="customer" value="{{  object.customer.id }}">
+                            <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Credit Amount <span style="color:red">*</span></label>
+                                    <input type="text" name="credit_amount" class="form-control form-control-alternative" placeholder="Credit Amount" required>
+                                </div>
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Date <span style="color:red">*</span></label>
+                                    <input type="date" name="credit_date" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 pull-left form-group">
+                                    <label class="form-control-label">Details <span style="color:red">*</span></label>
+                                    <textarea type="text" name="credit_details" class="form-control form-control-alternative" placeholder="Details" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pull-right form-group">
+                                    <label class="form-control-label"></label>
+                                    <button type="submit" value="Create" class="btn btn-primary form-control">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
